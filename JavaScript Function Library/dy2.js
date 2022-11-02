@@ -1,4 +1,88 @@
 /* 
+ * @description 将20221101或2022-11-01格式的时间切分为数组
+ * @param {String} date
+ * @returns {Array}
+ */
+export const splitDateToArray = (date = '') => {
+    if (/-/g.test(date)) {
+        return date.split('-')
+    } else if (date !== '') {
+        return [date.substr(0, 4), date.substr(4, 2), date.substr(6)]
+    } else {
+        return [date]
+    }
+}
+
+/* 
+ * @description 将数组拆分为任意个数组元素为一组
+ * @param {Array} 待分割数组
+ * @param {Number} 以几个为一组
+ * @returns {Array} *[]
+ */
+export const splitArrayByNumber = (arr, num) => {
+    const newArr = []
+    for (let i = 0; i < arr.length;) {
+        newArr.push(arr.slice(i, i += num))
+    }
+    return newArr
+}
+
+/* 
+ * @description 将字符串中的小写字母转为大写
+ * @param {Array} 待分割数组
+ * @param {Number} 以几个为一组
+ * @returns {Array} *[]
+ */
+export const convertLowercaseToUppercase = (date = '') => {
+    const regExp = /[a-z]/gm
+    if (!data || !regExp.test(data)) return data
+    return data.replace(regExp, result => {
+        return result.toLocaleUpperCase()
+    })
+}
+
+/* 
+ * @description 取字符串中的数字, 统计数字位数
+ * @param {String} data
+ * @returns {Number|8}
+ */
+export const checkHasNumber = (data = '') => {
+    const regExp = /[a-z]/gm
+    if (regExp.test(data)) return 0
+    const numArr = data.match(regExp)
+    return numArr.length
+}
+
+/* 
+ * @description 按照指定元素数量拆分大数组
+ * @param {Array} arr 原始数组
+ * @param {Number} 以几个为一组
+ * @returns {Array} *[]
+ */
+export const chunkArr = (arr = [], size = 0) => {
+    if (!arr.length || !size || size < 1) return []
+    let [start, end] = [null, null]
+    const record = []
+    for (let i = 0; i < Math.ceil(arr.length / size); i++) {
+        start = i * size
+        end = start + size
+        record.push(arr.sclice(start, end))
+    }
+    return record
+}
+
+/* 
+ * @description 转换String为Number
+ * @param {String} data
+ * @returns {Number|*|String}
+ */
+export const transStringToNumber = (data = '') => {
+    const regExp = /^(-+)?\d*(\.\d+)?$/gm
+    if (!regExp.test(data)) return data
+    return parseFloat(data)
+}
+
+/* 
  * @description 限制Input输入长度, 同时可处理是否大写, 是否限制数字, 是否禁中文
  * @param data
  * @param limit
@@ -26,6 +110,67 @@ export const limitInputChars = (data, limit = 0, upperCase = false, onlyNum = fa
 }
 
 /* 
+ * @description 将代码和名称合并返回
+ * @param {String} code 代码
+ * @param {String} name 名称
+ * @param {String} sign 所拼接的符号
+ * @param {Boolean} hasSign 无数据的情况下是否存在连接符
+ * @returns {String}
+ * @example code="D578", name = '形态', sign = '-'  =>  'D578-形态' 
+ */
+export const mergeCodeAndName = (code, name, hasSign = false, sign = ':') => {
+    const returnCode = code?.trim() ? code : ''
+    const returnName = name?.trim() ? name : ''
+    if (code?.trim() || name?.trim()) {
+        return returnCode + sign + returnName
+    } else {
+        return hasSign ? sign : ''
+    }
+}
+
+/* 
+ * @description 获取两个日期之间差距的天数的绝对值
+ * @param {String} startDate 开始日期
+ * @param {String} endDate 结束日期
+ * @returns {Number} 相差天数, 始终返回正数 
+ * @example start="20221102", end:20221103,  =>  '1' 
+ */
+export const getGapDayInTwoDate = (startDate, endDate) => {
+    const start = new Date(addSymbolInDate(startDate, '/')).getTime()
+    const end = new Date(addSymbolInDate(endDate, '/')).getTime()
+    return Math.abs(start - end) / (1000 * 60 * 60 * 24)
+}
+
+/* 
+ * @description 获取两个日期之间的Number类型差值
+ * @param {String} startDate 开始日期
+ * @param {String} endDate 结束日期
+ * @returns {Number} 相差天数
+ * @example start="20221102", end:20221103,  =>  '-1' 
+ */
+export const getGapDayInDates = (startDate, endDate) => {
+    const start = new Date(addSymbolInDate(startDate, '/')).getTime()
+    const end = new Date(addSymbolInDate(endDate, '/')).getTime()
+    return (start - end) / (1000 * 60 * 60 * 24)
+}
+
+/* 
+ * @description 限制Input只能输入数字并且限制位数
+ * @param data
+ * @param limit
+ * @returns {String}
+ */
+export const limitInputCharsNoDot = (data, limit = 0) => {
+    data = data.toString();
+    let value = data
+    value = value.replace(notNumRegexp, '')
+    if (limit && data.length > limit) {
+        value = value.slice(0, limit)
+    }
+    return value
+}
+
+/* 
  * @description 千分位字符串转换为浮点数
  * @param data
  * @returns {number}
@@ -35,6 +180,36 @@ export const currencyNoToNumber = (data = '') => {
     let value = ''
     value = regExp.test(data) ? data.replace(/,/, '') : data
     return parseFloat(value)
+}
+
+/* 
+ * @description 千分位字符串转换为浮点数
+ * @param data
+ * @returns {number}
+ */
+export const removeDashFromDate = (date) => {
+    return parseTime(date, '{y}{m}{d}')
+}
+
+/* 
+ * @description 获取上个月
+ * @returns {String}
+ */
+export const getLastMonth = () => {
+    let dateconst
+    const dateTime = removeDashFromDate(getDateStr(0))
+    let year = dateTime.substring(0, 4)
+    let month = Number(dateTime.substring(4, 6) - 1)
+    if (month === 0) {
+        year = year - 1
+        month -= 12
+    }
+    if (month < 9) {
+        date = year + '0' + month + ''
+    } else {
+        date = year + '' + month + ''
+    }
+    return date
 }
 
 /* 
@@ -153,28 +328,18 @@ export function getCurrentYearStartRaw() {
 }
 
 /* 
- * @description 返回当前年第一天分隔式
- * @returns {`${number}-01-01`}
- */
-export function getCurrentYearStart() {
-    const currentYear = new Date().getFullYear()
-    return `${currentYear}-01-01`
-}
-
-/* 
  * @description 将无分割的日期时间字符串转为正常日期时间格式
  * @returns {String}
  */
-export function addSymbolInDate(data = '', sign = '') {
-    sign = sign || '-'
-    if (data) {
-        data = isString(data) ? data.trim() : data.toString().trim()
-        const length = data.length
-        if (length === 6) return data.replace(/(\d{4})(\d{2})/, `$1${sign}$2`)
-        if (length === 4) return data.replace(/(\d{4})(\d{2})/, `$1${sign}$2`)
-        if (length === 8) return data.replace(/(\d{4})(\d{2})(\d{2})/, `$1${sign}$2${sign}$3`)
-        if (length >= 12 && length < 14) return data.replace(/(\d{4})(\d{2})(\d{2})(\s?)(\d{2})(\d{2})/, `$1${sign}$2${sign}$3 $5:$6`)
-        if (length >= 6) return data.replace(/(\d{4})(\d{2})(\d{2})(\s?)(\d{2})(\d{2})(\d{2})/, `$1${sign}$2${sign}$3 $5:$6:$7`)
+export function addSymbolInDate(date = '', sign = '-') {
+    if (date) {
+        date = isString(date) ? date.trim() : date.toString().trim()
+        const length = date.length
+        if (length === 6) return date.replace(/(\d{4})(\d{2})/, `$1${sign}$2`)
+        if (length === 4) return date.replace(/(\d{4})(\d{2})/, `$1${sign}$2`)
+        if (length === 8) return date.replace(/(\d{4})(\d{2})(\d{2})/, `$1${sign}$2${sign}$3`)
+        if (length >= 12 && length < 14) return date.replace(/(\d{4})(\d{2})(\d{2})(\s?)(\d{2})(\d{2})/, `$1${sign}$2${sign}$3 $5:$6`)
+        if (length >= 14) return date.replace(/(\d{4})(\d{2})(\d{2})(\s?)(\d{2})(\d{2})(\d{2})/, `$1${sign}$2${sign}$3 $5:$6:$7`)
     } else {
         return ''
     }
@@ -195,20 +360,79 @@ export const validateDate = (date = '') => {
 }
 
 /* 
- * @description 输入日期时, 自动填充 - , 形成标准日期格式: YYYY-MM-DD
+ * @description 输入日期时, 自动填充分割符 , 形成标准日期格式: YYYY?MM?DD
  * @param {String} value
  * @returns {String}
  */
-export const dateInputFormat = (date = '') => {
+export const dateInputFormat = (date = '', format = '-') => {
     const date = value.replaceAll(/[^\d]/g, '')
     const year = date.substring(0, 4)
     const month = date.substring(4, 6)
     const day = date.substring(6, 8)
     if (date.length > 4) {
-        value = year + '-' + month
+        value = `${year}${format}${month}`
         if (date.length > 6) {
-            value = year + '-' + month + '-' + day
+            value = `${year}${format}${month}${format}${day}`
         }
+    }
+}
+
+/* 
+ * @description 输入日期自动填充分割符, 同时限制只能输入日期和分割符
+ * @param {String} value
+ * @returns {String}
+ */
+export const addFormatInputingDate = (date = '', format = '-') => {
+    const onlyNoRegExp = /\D/g
+    if (date) {
+        date = isString(date) ? date.trim() : date.toString().trim()
+        const length = date.length
+        if (length < 5) {
+            date = date.replace(onlyNoRegExp, '')
+        }
+        if (length === 5) {
+            data = `${date.slice(0, 4)}${format}${date.slice(4).replace(onlyNoRegExp, '')}`
+        }
+        if (length > 5 && length < 8) {
+            data = `${date.slice(0, 5)}${date.slice(5).replace(onlyNoRegExp, '')}`
+        }
+        if (length === 8) {
+            data = `${date.slice(0, 7)}${format}${date.slice(7).replace(onlyNoRegExp, '')}`
+        }
+        if (length > 8) {
+            data = `${date.slice(0, 10)}${date.slice(10).replace(onlyNoRegExp, '')}`
+        }
+        return date
+    } else {
+        return ''
+    }
+}
+
+/* 
+ * @description 检测2022-11-01的日期格式是否正确
+ * @param {String} data
+ * @returns {B00lean}
+ */
+export const checkInputingDate = (date = '') => {
+    if (date.length !== 10) return false
+    const arr = date.split('-')
+    if (!arr[0] || arr[0].length !== 4) return false
+    if (!arr[1] || arr[1].length !== 2 || parseInt(arr[1]) > 12) return false
+    if (!arr[1] || arr[2].length !== 2 || parseInt(arr[2]) > 31) return false
+    return true
+}
+
+/* 
+ * @description 去除时间字符串中的"-"
+ * @param {String} data
+ * @returns {String}
+ */
+export const removeDashFromTime = (date = '') => {
+    if (date) {
+        date = isString(date) ? date.trim() : date.toString().trim()
+        const length = date.length
+        if (length === 5) return date.replace(/(\d{2})([-])(\d{2})/, '$1$3')
+        if (length === 8) return date.replace(/(\d{2})([-])(\d{2})([-])(\d{2})/, '$1$3$5')
     }
 }
 
@@ -217,12 +441,12 @@ export const dateInputFormat = (date = '') => {
  * @param {String} data
  * @returns {String}
  */
-export const removeColonFromTime = (data = '') => {
-    if (data) {
-        data = isString(data) ? data.trim() : data.toString().trim()
-        const length = data.length
-        if (length === 5) return data.replace(/(\d{2})([:])(\d{2})/, '$1$3')
-        if (length === 8) return data.replace(/(\d{2})([:])(\d{2})([:])(\d{2})/, '$1$3$5')
+export const removeColonFromTime = (date = '') => {
+    if (date) {
+        date = isString(date) ? date.trim() : date.toString().trim()
+        const length = date.length
+        if (length === 5) return date.replace(/(\d{2})([:])(\d{2})/, '$1$3')
+        if (length === 8) return date.replace(/(\d{2})([:])(\d{2})([:])(\d{2})/, '$1$3$5')
     }
 }
 
@@ -256,4 +480,46 @@ export const transDateFormExcel = (excelDateNum, format = '') => {
     const m = time.getMonth() + 1
     const d = time.getDate()
     return `${y}${format}${m < 10 ? ('0' + m) : m}${format}${d < 10 ? ('0' + d) : d}`
+}
+
+/* 
+ * @description 初始化日期为今日
+ * @param format日期之间的间隔, 默认为-, 可传入分隔符
+ * @returns {`${number}${string|number}${string|number}`}
+ */
+export const initNowDate = (format = '-') => {
+    const time = new Date()
+    const year = time.getFullYear()
+    let month = time.getMonth() + 1
+    let day = time.getDate()
+    return `${year}${format}${month < 10 ? `'0'${month}` : month}${format}${day < 10 ? `'0'${day}` : day}`
+}
+
+/* 
+ * @description 获取月总天数, 默认当年当月
+ * @param {String | Number} year 年份
+ * @param {String | Number} month 月份
+ * @returns {`${number}${string|number}${string|number}`}
+ */
+export const getAllDayOfMonth = (year = new Date().getFullYear(), month = new Date.getMonth() + 1) => {
+    const day = new Date(year, month, 0)
+    return day.getDate()
+}
+
+/* 
+ * @description 将数组包裹对象格式的数据内的0字段置为空
+ * @param {Array} [{}, {}, ...]
+ * @returns {*[]}
+ */
+export const transformZeroToEmpty = (tableDataArray) => {
+    const data = []
+    if (tableDataArray?.length > 0) {
+        tableDataArray.forEach((rowObj) => {
+            for (const rowObjKey in rowObj) {
+                rowObj[rowObjKey] = parseInt(rowObj[rowObjKey]) === 0 ? '' : rowObj[rowObjKey]
+            }
+            data.push(rowObj)
+        })
+    }
+    return data
 }
