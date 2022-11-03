@@ -19,8 +19,9 @@ export const chunkArrByProperty = (arr, pro) => {
 
 /* 
  * @description 对数组内所有对象的各个属性分别求和, 返回对象, 无法执行加法的项将略过
- * @param {Array} [{}, {}, ...] 原数组
- * @param {String} Symbol(可选) 特殊后缀, 总计对象内每个属性名将增加特殊后缀 
+ * @param {Array} [{}, {}, ...] 原数组 
+ * @param {Array} [{}, {}, ...] (可选)需相加的属性构建数组, 数组元素顺序会影响结果对象, 不传默认从原数组第0位对象提取.
+ * @param {String} Symbol(可选) 特殊后缀, 总计对象内每个属性名将增加特殊后缀.
  * @returns {Object} 
  */
 export const sumAllObjOfArr = (arr = [], proArr = '', symbol) => {
