@@ -24,11 +24,11 @@ export const chunkArrByProperty = (arr, pro) => {
  * @param {String} Symbol(可选) 特殊后缀, 总计对象内每个属性名将增加特殊后缀.
  * @returns {Object} 
  */
-export const sumAllObjOfArr = (arr = [], proArr = '', symbol) => {
+export const sumAllObjOfArr = (arr = [], proArr = '', symbol = false) => {
     const temObj = {}
     proArr = proArr === '' && Object.keys(arr[0])
     proArr.forEach((pro) => {
-        temObj[pro] = arr.reduce((prevVal, currVal) => {
+        temObj[symbol ? `pro_${symbol}` : pro] = arr.reduce((prevVal, currVal) => {
             if (!isNaN(Number(currVal[pro]))) {
                 return prevVal + Number(currVal[pro])
             } else {
