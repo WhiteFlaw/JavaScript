@@ -24,7 +24,7 @@ export const chunkArrByProperty = (arr, pro) => {
  * @param {String} Symbol(可选) 特殊后缀, 总计对象内每个属性名将增加特殊后缀.
  * @returns {Object} 
  */
-export const sumAllObjOfArr = (arr = [], proArr = '', symbol = false) => {
+export const sumAllObjOfArr = (arr = [], proArr = '', symbol = false) => { // 需要添加是否在proArr中的key仅为所有key的一部分时是否补齐其他key的判定
     const temObj = {}
     proArr = proArr === '' && Object.keys(arr[0])
     proArr.forEach((pro) => {
@@ -32,6 +32,7 @@ export const sumAllObjOfArr = (arr = [], proArr = '', symbol = false) => {
             return prevVal + !isNaN(Number(currVal[pro])) ? Number(currVal[pro]) : 0
         }, 0)
     })
+    return temObj
 }
 
 /* 
