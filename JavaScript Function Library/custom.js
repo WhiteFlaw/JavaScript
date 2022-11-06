@@ -29,7 +29,7 @@ export const sumAllObjOfArr = (arr = [], proArr = '', symbol = false) => { // éœ
     proArr = proArr === '' && Object.keys(arr[0])
     proArr.forEach((pro) => {
         temObj[symbol ? `pro_${symbol}` : pro] = arr.reduce((prevVal, currVal) => {
-            return prevVal + !isNaN(Number(currVal[pro])) ? Number(currVal[pro]) : 0
+            return prevVal + (!isNaN(Number(currVal[pro])) ? Number(currVal[pro]) : 0)
         }, 0)
     })
     return temObj
