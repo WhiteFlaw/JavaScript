@@ -90,3 +90,25 @@ export function getCurrentYearStartRaw() {
     const currentYear = new Date().getFullYear()
     return `${currentYear}0101`
 }
+
+/* 
+ * @description 如果任何一个值为assignedVal, 替换值为toVal
+ * @returns {`${number}-01-01`}
+ */
+replaceAssignedValue(params = [], assignedVal = null, toVal = '') { // 简单对象， 对象数组， 简单数组
+      if (Array.isArray(params)) {
+        for (let i = 0; i < params.length; i++) {
+          params[i].constructor === Object || Array.isArray(params[i]) && this.replaceAssignedValue(params[i], assignedVal, toVal)
+          params[i] === assignedVal && params[i] === toVal
+        }
+      }
+      if (params.constructor === Object) {
+        for (const key in params) {
+          params[key] === Object || Array.isArray(params[key]) && this.replaceAssignedValue(params[key], assignedVal, toVal)
+          params[key] === assignedVal && params[key] === toVal
+        }
+      } else {
+        console.log('Error in replaceAssignedValue: Type Error.')
+      }
+      return params
+    },
