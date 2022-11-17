@@ -91,19 +91,22 @@ export function getCurrentYearStartRaw() {
     return `${currentYear}0101`
 }
 
-/* 
- * @description 如果任何一个值为assignedVal, 替换值为toVal
+/* 待修改
+ * @description 如果任何一个值为assignedVal, 替换值为toVal.
  * @returns {`${number}-01-01`}
  */
+// 不该直接排除两种类型后报错, 就算能进行到最后一步也会卡住
 replaceAssignedValue(params = [], assignedVal = null, toVal = '') { // 简单对象， 对象数组， 简单数组
       if (Array.isArray(params)) {
         for (let i = 0; i < params.length; i++) {
+          // Object.prototype.toString.call(params[i]) === '[object Object]'
           params[i].constructor === Object || Array.isArray(params[i]) && this.replaceAssignedValue(params[i], assignedVal, toVal)
           params[i] === assignedVal && params[i] === toVal
         }
       }
       if (params.constructor === Object) {
         for (const key in params) {
+          // Object.prototype.toString.call(params[key]) === '[object Object]'
           params[key] === Object || Array.isArray(params[key]) && this.replaceAssignedValue(params[key], assignedVal, toVal)
           params[key] === assignedVal && params[key] === toVal
         }
