@@ -97,21 +97,34 @@ export function getCurrentYearStartRaw() {
  */
 // 不该直接排除两种类型后报错, 就算能进行到最后一步也会卡住
 replaceAssignedValue(params = [], assignedVal = null, toVal = '') { // 简单对象， 对象数组， 简单数组
-      if (Array.isArray(params)) {
-        for (let i = 0; i < params.length; i++) {
-          // Object.prototype.toString.call(params[i]) === '[object Object]'
-          params[i].constructor === Object || Array.isArray(params[i]) && this.replaceAssignedValue(params[i], assignedVal, toVal)
-          params[i] === assignedVal && params[i] === toVal
+  if (Array.isArray(params)) { // 复制原数组
+    const temArr = params.slice()
+  }
+  if (Object.prototype.toString.call(params) === '[object Object]') { // 复制原对象
+
+  }
+  function inside() {
+    if (Array.isArray(params)) {
+      for (let i = 0; i < params.length; i++) {
+        if (Object.prototype.toString.call(params[i]) === '[object Object]' || Array.isArray(params[i])) {
+          replaceAssignedValue(params[i], assignedVal, toVal)
+        } 
+        params[i] === assignedVal && (params[i] = toVal)
+      }
+    }
+    if (Object.prototype.toString.call(params) === '[object Object]') {
+      for (const key in params) {
+        if (Object.prototype.toString.call(params[key]) === '[object Object]' || Array.isArray(params[key])) {
+          replaceAssignedValue(params[key], assignedVal, toVal)
+        } else {
+          params[key] === assignedVal && (params[key] = toVal)
+          
         }
       }
-      if (params.constructor === Object) {
-        for (const key in params) {
-          // Object.prototype.toString.call(params[key]) === '[object Object]'
-          params[key] === Object || Array.isArray(params[key]) && this.replaceAssignedValue(params[key], assignedVal, toVal)
-          params[key] === assignedVal && params[key] === toVal
-        }
-      } else {
-        console.log('Error in replaceAssignedValue: Type Error.')
-      }
-      return params
-    },
+    } else {
+      console.log(arr)
+      // console.log('Error in replaceAssignedValue: Type Error.')
+      // return params
+    }
+  }
+}
