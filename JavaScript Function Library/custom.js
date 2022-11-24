@@ -95,7 +95,7 @@ export function getCurrentYearStartRaw() {
  * @description 如果参数中任何一个数组元素或对象属性值为assignedVal, 替换值为toVal.
  * @returns {}|[]
  */
-function replaceAssignedValue (params = [], assignedVal = null, toVal = '') { // 简单对象, 简单数组, 复杂嵌套对象数组
+export function replaceAssignedValue (params = [], assignedVal = null, toVal = '') { // 简单对象, 简单数组, 复杂嵌套对象数组
   let tem
   if (Array.isArray(params)) {
     tem = params.concat() // contect无法深拷贝函数类型, 等待封装
@@ -126,4 +126,15 @@ function replaceAssignedValue (params = [], assignedVal = null, toVal = '') { //
     }
   })(tem)
   return tem
+}
+
+export function removeObjFromArr(arr, obj) {
+  arr.splice(arr.indexOf(obj), 1)
+}
+
+export function removeObjFromArrByAttr(arr, key, val) {
+  const targets = this.tableData.filter(obj => obj[key] === val).map(obj => arr.indexOf(obj));
+  for (let i = 0; i < targets.length; i++) {
+    arr.splice(targets[i], 1);
+  }
 }
