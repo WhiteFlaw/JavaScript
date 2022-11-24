@@ -91,40 +91,39 @@ export function getCurrentYearStartRaw() {
     return `${currentYear}0101`
 }
 
-/* 待修改
- * @description 如果任何一个值为assignedVal, 替换值为toVal.
- * @returns {`${number}-01-01`}
+/* 现在能用, 但是会改变原数组
+ * @description 如果参数中任何一个数组元素或对象属性值为assignedVal, 替换值为toVal.
+ * @returns {}|[]
  */
-// 不该直接排除两种类型后报错, 就算能进行到最后一步也会卡住
-replaceAssignedValue(params = [], assignedVal = null, toVal = '') { // 简单对象， 对象数组， 简单数组
-  if (Array.isArray(params)) { // 复制原数组
-    const temArr = params.slice()
+function replaceAssignedValue (params = [], assignedVal = null, toVal = '') { // 简单对象, 简单数组, 复杂嵌套对象数组
+  let tem
+  if (Array.isArray(params)) {
+    tem = params.concat() // contect无法深拷贝函数类型, 等待封装
+  } else if (Object.prototype.toString.call(params) === '[object Object]') {
+    tem = Object.assign(params) // 此处必须使用深拷贝方法, 等待封装
+  } else {
+    console.error('Type Error: The "replaceAssignedValue" only accept Val in Type Array or Object.')
+    return false
   }
-  if (Object.prototype.toString.call(params) === '[object Object]') { // 复制原对象
-
-  }
-  function inside() {
+  (function inside(params) {
     if (Array.isArray(params)) {
       for (let i = 0; i < params.length; i++) {
         if (Object.prototype.toString.call(params[i]) === '[object Object]' || Array.isArray(params[i])) {
-          replaceAssignedValue(params[i], assignedVal, toVal)
-        } 
-        params[i] === assignedVal && (params[i] = toVal)
+          inside(params[i], assignedVal, toVal)
+        } else {
+          params[i] === assignedVal && (params[i] = toVal)
+        }
       }
     }
     if (Object.prototype.toString.call(params) === '[object Object]') {
       for (const key in params) {
         if (Object.prototype.toString.call(params[key]) === '[object Object]' || Array.isArray(params[key])) {
-          replaceAssignedValue(params[key], assignedVal, toVal)
+          inside(params[key], assignedVal, toVal)
         } else {
           params[key] === assignedVal && (params[key] = toVal)
-          
         }
       }
-    } else {
-      console.log(arr)
-      // console.log('Error in replaceAssignedValue: Type Error.')
-      // return params
     }
-  }
+  })(tem)
+  return tem
 }
