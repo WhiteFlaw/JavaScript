@@ -108,7 +108,7 @@ export function replaceAssignedValue (params = [], assignedVal = null, toVal = '
   (function inside(params) {
     if (Array.isArray(params)) {
       for (let i = 0; i < params.length; i++) {
-        if (Object.prototype.toString.call(params[i]) === '[object Object]' || Array.isArray(params[i])) {
+        if (typeof params[i] === 'Object') {
           inside(params[i], assignedVal, toVal)
         } else {
           params[i] === assignedVal && (params[i] = toVal)
@@ -117,7 +117,7 @@ export function replaceAssignedValue (params = [], assignedVal = null, toVal = '
     }
     if (Object.prototype.toString.call(params) === '[object Object]') {
       for (const key in params) {
-        if (Object.prototype.toString.call(params[key]) === '[object Object]' || Array.isArray(params[key])) {
+        if (typeof params[key] === 'object') {
           inside(params[key], assignedVal, toVal)
         } else {
           params[key] === assignedVal && (params[key] = toVal)
