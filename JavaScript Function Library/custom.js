@@ -91,7 +91,7 @@ export function getCurrentYearStartRaw() {
     return `${currentYear}0101`
 }
 
-/* 现在能用, 但是会改变原数组
+/* 现在能用, 但是会改变原数组 考虑用Map替换闭包方案
  * @description 如果参数中任何一个数组元素或对象属性值为assignedVal, 替换值为toVal.
  * @returns {}|[]
  */
