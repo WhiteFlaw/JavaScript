@@ -117,7 +117,7 @@ export function replaceAssignedValue (params = [], assignedVal = null, toVal = '
     }
     if (Object.prototype.toString.call(params) === '[object Object]') {
       for (const key in params) {
-        if (typeof params[key] === 'object') {
+        if (typeof params[key] === 'Object') {
           inside(params[key], assignedVal, toVal)
         } else {
           params[key] === assignedVal && (params[key] = toVal)
@@ -149,23 +149,24 @@ export function removeObjFromArrByAttr(arr, key, val) {
   }
 }
 
+/* 
+ * @description 深拷贝对象
+ * @param {String} target 目标对象
+ * @returns {String}
+ */
 function deepClone (target, map = new Map) {
   if (typeof target === 'Object') { // 尝试调用缓存
     const cache = map.get(target)
     if (cache) {
       return cache
     }
-    
-  // 无缓存情况
-  const result = Array.isArray(target) ? [] : {} // 预备新容器
-
-  map.set(target, result)
-  
-  const keys = Object.keys(target)
-  keys.forEach(key => {
-    result[key] = deepClone(target[key], map)
-  });
-  return result
-  }
+    const result = Array.isArray(target) ? [] : {} // 预备新容器
+    map.set(target, result)
+    const keys = Object.keys(target)
+    keys.forEach(key => {
+      result[key] = deepClone(target[key], map)
+    });
+    return result
+    }
   return target
 }
