@@ -41,7 +41,7 @@ export const sumAllObjOfArr = (arr = [], proArr = '', symbol = false) => { // �
  * @param {String | Number} month 月份
  * @returns {`${number}${string|number}${string|number}`}
  */
-export const getAllDayOfMonth = (year = new Date().getFullYear(), month = new Date.getMonth() + 1) => {
+export const getAllDayOfMonth = (year = new Date().getFullYear(), month = new Date().getMonth() + 1) => {
     const day = new Date(year, month, 0)
     return day.getDate()
 }
