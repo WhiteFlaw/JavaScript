@@ -148,3 +148,24 @@ export function removeObjFromArrByAttr(arr, key, val) {
     arr.splice(targets[i], 1);
   }
 }
+
+function deepClone (target, map = new Map) {
+  if (typeof target === 'Object') { // 尝试调用缓存
+    const cache = map.get(target)
+    if (cache) {
+      return cache
+    }
+    
+  // 无缓存情况
+  const result = Array.isArray(target) ? [] : {} // 预备新容器
+
+  map.set(target, result)
+  
+  const keys = Object.keys(target)
+  keys.forEach(key => {
+    result[key] = deepClone(target[key], map)
+  });
+  return result
+  }
+  return target
+}
