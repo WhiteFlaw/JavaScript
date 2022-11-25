@@ -128,10 +128,20 @@ export function replaceAssignedValue (params = [], assignedVal = null, toVal = '
   return tem
 }
 
+/* 
+ * @description 从数组中移除指定元素, 可为对象数组
+ * @param {String} arr 数组 obj 待移除元素
+ * @returns {String}
+ */
 export function removeObjFromArr(arr, obj) {
   arr.splice(arr.indexOf(obj), 1)
 }
 
+/* 
+ * @description 依据属性从对象数组中移除对象, 移除所有key值为val的对象
+ * @param {String} arr 数组 key 属性 val 属性值
+ * @returns {String}
+ */
 export function removeObjFromArrByAttr(arr, key, val) {
   const targets = this.tableData.filter(obj => obj[key] === val).map(obj => arr.indexOf(obj));
   for (let i = 0; i < targets.length; i++) {
