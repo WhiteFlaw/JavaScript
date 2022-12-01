@@ -150,23 +150,18 @@ export function removeObjFromArrByAttr(arr, key, val) {
 }
 
 /* 
+ * @description 对象数组去重
+ * @param {String} arr 对象数组
+ * @returns {Array}
+ */
+export function deduObjArr(arr = []) {
+  const deduArr = [...new Set(arr.map(raw => JSON.stringify(raw)))].map(json => JSON.parse(json))
+  return deduArr
+}
+
+/* 
  * @description 深拷贝对象
  * @param {String} target 目标对象
  * @returns {String}
  */
-function deepClone (target, map = new Map) {
-  if (typeof target === 'Object') { // 尝试调用缓存
-    const cache = map.get(target)
-    if (cache) {
-      return cache
-    }
-    const result = Array.isArray(target) ? [] : {} // 预备新容器
-    map.set(target, result)
-    const keys = Object.keys(target)
-    keys.forEach(key => {
-      result[key] = deepClone(target[key], map)
-    });
-    return result
-    }
-  return target
-}
+
