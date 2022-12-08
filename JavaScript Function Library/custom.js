@@ -98,7 +98,7 @@ export function getCurrentYearStartRaw() {
 export function replaceAssignedValue (params = [], assignedVal = null, toVal = '') { // 简单对象, 简单数组, 复杂嵌套对象数组
   let tem
   if (Array.isArray(params)) {
-    tem = params.concat() // contect无法深拷贝函数类型, 等待封装
+    tem = params.concat() // concat无法深拷贝函数类型, 等待封装
   } else if (Object.prototype.toString.call(params) === '[object Object]') {
     tem = Object.assign(params) // 此处必须使用深拷贝方法, 等待封装
   } else {
@@ -129,7 +129,7 @@ export function replaceAssignedValue (params = [], assignedVal = null, toVal = '
 }
 
 /* 
- * @description 从数组中移除指定元素, 可为对象数组
+ * @description 从数组中移除指定元素(也可为对象数组)
  * @param {String} arr 数组 obj 待移除元素
  * @returns {String}
  */
@@ -138,7 +138,7 @@ export function removeObjFromArr(arr, obj) {
 }
 
 /* 
- * @description 依据属性从对象数组中移除对象, 移除所有key值为val的对象
+ * @description 依据属性从对象数组中移除对象(移除Arr中所有key属性值为val的对象)
  * @param {String} arr 数组 key 属性 val 属性值
  * @returns {String}
  */
@@ -165,3 +165,18 @@ export function deduObjArr(arr = []) {
  * @returns {String}
  */
 
+/* 
+ * @description 检查对象数组中所列属性是否均相同, 需要添加属性值为数组/对象时的特殊比较方法
+ * @param {String} arr 对象数组
+ * @returns {Array}
+ */
+export function deduObjArr (arr, keyArr) {
+  let tem = true
+  for (let i = 0; i < keyArr.length; i++) {
+    if (!arr.every(item => item[keyArr[i]] === arr[0][keyArr[i]])) {
+      tem = false
+      break
+    }
+  }
+  return tem
+}
