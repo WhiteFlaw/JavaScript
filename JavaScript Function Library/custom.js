@@ -143,7 +143,7 @@ export function removeObjFromArr(arr, obj) {
  * @returns {String}
  */
 export function removeObjFromArrByAttr(arr, key, val) {
-  const targets = this.tableData.filter(obj => obj[key] === val).map(obj => arr.indexOf(obj));
+  const targets = arr.filter(obj => obj[key] === val).map(obj => arr.indexOf(obj));
   for (let i = 0; i < targets.length; i++) {
     arr.splice(targets[i], 1);
   }
