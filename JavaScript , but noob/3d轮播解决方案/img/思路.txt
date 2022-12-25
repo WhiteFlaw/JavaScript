@@ -1,3 +1,0 @@
-将可见区card样式设置为xxx
-点击到哪一张就将样式设置为可见card的样式
-transition;
