@@ -114,10 +114,10 @@
             return `<div onclick="setType(${index})" class="type">${type}</div> `;
         })
         const keyDom = audio_data_list.map((data) => {
-            return `<li onclick="create(${data.id})" class="key ${data.key.length === 3 ? 'bkey' : 'wkey'}"> · </li> `;
+            return `<li onmousedown="create(${data.id})" class="key ${data.key.length === 3 ? 'bkey' : 'wkey'}"> · </li> `;
         })
         const blockDom = audio_data_list.map((data, index) => {
-            if (data.key.length !== 3) return `<li onclick="create(${data.id})" class="key block"}"></li>`;
+            if (data.key.length !== 3) return `<li onmousedown="create(${data.id})" class="key block"}"></li>`;
         })
         document.getElementById('type-list').innerHTML = `Pitch: ${generateDom(typeDom)}`;
         document.getElementById('key-list').innerHTML = generateDom(keyDom);
