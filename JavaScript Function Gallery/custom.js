@@ -166,18 +166,14 @@ function deepCopy(value, weakMap = new WeakMap(), protoNeeded = true) {
   if (is.Map(value)) {
     const newMap = new Map();
     for (const item of value) newMap.set(deepCopy(item[0], weakMap), deepCopy(item[1], weakMap));
-      return newMap;
+    return newMap;
   }
   if (weakMap.has(value)) return weakMap.get(value);
   if (!is.Object(value) && !is.Array(value)) return value;
-  const newObj = is.Array(value) ? [] : {};
+  const newObj = addProto(value, is.Array(value) ? [] : {});
   weakMap.set(value, newObj);
   for (const key in value) {
-    if (is.Object(value[key]) && protoNeeded) { // 对象额外进行原型拷贝
-      newObj[key] = addProto(value[key], deepCopy(value[key], weakMap));
-    } else {
-      newObj[key] = deepCopy(value[key], weakMap);
-    } 
+    newObj[key] = deepCopy(value[key], weakMap);
   }
   const symbolKeys = Object.getOwnPropertySymbols(value);
   for (const sKey of symbolKeys) {
