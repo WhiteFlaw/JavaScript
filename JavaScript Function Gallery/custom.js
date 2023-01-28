@@ -154,14 +154,14 @@ export function deduObjArr(arr = []) {
  * @param {Object | Array} value 对象|数组
  * @returns {Object | Array}
  */
-function deepCopy(value, weakMap = new WeakMap(), protoNeeded = true) {
+function deepCopy(value, weakMap = new WeakMap()) {
   if (is.Function(value)) return value;
   if (is.Date(value)) return new Date(value.valueOf());
   if (is.Symbol(value)) return Symbol(value.description);
   if (is.Set(value)) {
     const newSet = new Set();
     for (const item of value) newSet.add(deepCopy(item), weakMap);
-      return newSet;
+    return newSet;
   }
   if (is.Map(value)) {
     const newMap = new Map();
@@ -170,7 +170,7 @@ function deepCopy(value, weakMap = new WeakMap(), protoNeeded = true) {
   }
   if (weakMap.has(value)) return weakMap.get(value);
   if (!is.Object(value) && !is.Array(value)) return value;
-  const newObj = addProto(value, is.Array(value) ? [] : {});
+  const newObj = is.Array(value) ? [] : addProto(value, {});
   weakMap.set(value, newObj);
   for (const key in value) {
     newObj[key] = deepCopy(value[key], weakMap);
