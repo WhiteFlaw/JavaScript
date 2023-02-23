@@ -1,0 +1,6 @@
+forEach() 方法对数组的每个元素执行一次提供的函数。
+        
+        var array = ['a', 'b', 'c'];
+        array.forEach(function (element) {
+            console.log(element);
+        });

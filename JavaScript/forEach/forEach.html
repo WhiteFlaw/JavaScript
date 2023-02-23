@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            height: 300px;
+            width: 300px;
+            background-color: aqua;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="right"></div>
+    <div id="left"></div>
+    <div id="middle"></div>
+    <div id="top"></div>
+    <div id="bottom"></div>
+    <script>
+        var array = ['a', 'b', 'c'];
+        array.forEach(function (element) {
+            console.log(element);
+        });
+
+
+        var right = document.getElementById("right");
+        var middle = document.getElementById("middle");
+        var left = document.getElementById("left");
+        var top = document.getElementById("top");
+        var bottom = document.getElementById("bottom");
+        var gridItems = [right, middle, left, top, bottom];
+        gridItems.forEach(function (item, index) {
+            item.addEventListener('click', function () {
+                console.log(item + index);
+            });
+        });
+
+    </script>
+
+
+</body>
+
+</html>

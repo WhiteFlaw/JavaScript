@@ -1,0 +1,24 @@
+
+namedItem() 方法从HTML集合中取回带有指定name属性值的节点或元素,
+获取到的HTMLcollection是HTML元素的集合,
+比如由document.getElementsByTagName()获取到的就是HTMLcollection;
+<body>
+<p name="elementP"></p>
+<p name="elementA"></p>
+<p></p>
+<p></p id="id3">
+<p name="elementB"></p>
+<script>
+var 集合1 = document.getElementsByTagName("p");比如这个HTML集合"集合1";
+console.log(集合1.namedItem("elementP"));
+console.log(集合1.namedItem("id3"))
+</script>
+</body>
+
+根据不同的文档类型，该方法的行为也有所不同：在HTML文档中，该方法会优先根据id的值来匹配节点;
+如果没有任何元素或者节点存在匹配的id属性，则依据name属性对元素进行匹配。
+当查询 HTML 文档时，该方法对大小写不敏感。
+
+在XHTML文档中，该方法只匹配id属性。
+当查询XHTML文档时，该方法对大小写敏感。
+

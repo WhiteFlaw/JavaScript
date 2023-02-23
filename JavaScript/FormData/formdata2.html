@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="formId" name="formName">
+        <input type="text" value="我是输入框value" name="formText" placeholder="于此输入" id="inputId">
+    </form>
+    <script>
+        //根据ID获得页面当中的form表单元素
+        var form = document.querySelector("#formId");
+        //将获得的表单元素作为参数，对formData进行初始化
+        var formdata = new FormData(form);
+        //通过get方法获得name为advName元素的value值
+        console.log("?" + formdata.get("formText"));//xixi
+        //通过get方法获得name为advType元素的value值
+        console.log(formdata.get("advType"));//1 
+    </script>
+</body>
+
+</html>

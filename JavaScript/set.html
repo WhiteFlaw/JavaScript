@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const rawArr = [
+            {
+                sacNam: '合计',
+                sacNamKo: 'xxx',
+                trxAmt0: '',
+                trxAmt1: '',
+                trxAmt2: '',
+                trxAmt3: '',
+                trxAmt4: '',
+            },
+            {
+                sacNam: '总计',
+                sacNamKo: 'xxx',
+                trxAmt0: '',
+                trxAmt1: '',
+                trxAmt2: '',
+                trxAmt3: '',
+                trxAmt4: '',
+            },
+            {
+                sacNam: '总计',
+                sacNamKo: 'xxx',
+                trxAmt0: '',
+                trxAmt1: '',
+                trxAmt2: '',
+                trxAmt3: '',
+                trxAmt4: '',
+            },
+            {
+                sacNam: '总计',
+                sacNamKo: 'xxx',
+                trxAmt0: '',
+                trxAmt1: '',
+                trxAmt2: '',
+                trxAmt3: '',
+                trxAmt4: '',
+            },
+            {
+                sacNam: '小计',
+                sacNamKo: 'xxx',
+                trxAmt0: '',
+                trxAmt1: '',
+                trxAmt2: '',
+                trxAmt3: '',
+                trxAmt4: '',
+            },
+            {
+                sacNam: '总计',
+                sacNamKo: 'xxx',
+                trxAmt0: '',
+                trxAmt1: '',
+                trxAmt2: '',
+                trxAmt3: '',
+                trxAmt4: '',
+            },
+            {
+                sacNam: '合计',
+                sacNamKo: 'xxx',
+                trxAmt0: '',
+                trxAmt1: '',
+                trxAmt2: '',
+                trxAmt3: '',
+                trxAmt4: '',
+            },
+            {
+                sacNam: '小计',
+                sacNamKo: 'xxx',
+                trxAmt0: '',
+                trxAmt1: '',
+                trxAmt2: '',
+                trxAmt3: '',
+                trxAmt4: '',
+            }
+        ]
+        const sacMay = ['小计', '总计', '合计'];
+        const temArr1 = []
+
+        sacMay.forEach((may, index) => {
+            const temArr2 = rawArr.filter((item) => {
+                return item.sacNam === may
+            })
+            temArr1.push(temArr2);
+        })
+        console.log(temArr1);
+    </script>
+</body>
+
+</html>

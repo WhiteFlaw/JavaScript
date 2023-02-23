@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>移动div</title>
+</head>
+
+<body>
+    <div id="divSlider" style="width: 100px;height: 100px;background-color: deepskyblue;
+position: absolute;top: 10px;left: 10px;">
+    </div>
+
+    <script>
+        var divSlider = document.getElementById("divSlider");
+        divSlider.addEventListener('mousedown', mouseDown, false);
+
+        document.addEventListener('mouseup', mouseUp, false);
+
+        function mouseDown() {
+            document.addEventListener('mousemove', sliderMove, false);
+        }
+        /* ###问题产生的原因：因为mousemove 的间隔性触发，当两次mousemove事件触发的间隔中，鼠标移动距离出了element的范围，就会产生鼠标脱离element范围，拖拽就停止，
+        ###解决方法： 将mousemove事件挂在docment，而不是对应的element，此时鼠标滑动只要不出docment范围就不会触发上述情况。 */
+        function mouseUp() {
+            document.removeEventListener('mousemove', sliderMove, false);
+        }
+        function sliderMove(e) {
+            // 解決拖拽鼠標粘滯問題,即按下無法拖動,鬆開反而跟隨的問題;
+            // if (e.preventDefault) {
+            //     e.preventDefault();
+            // } else {
+            //     e.returnValue = false;
+            // }
+            divSlider.style.left = e.clientX + 'px';
+            divSlider.style.top = e.clientY + 'px';
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+隐式声明函数:
+   function foo(value) {
+
+      result = value + 1;	 // 没有用 var 修饰
+
+      return result;
+    };
+
+    foo(123);				// 124
+    
+    console.log(window.result);			// 124 <=  挂在了 window全局对象上 
+    
+
+在需要使用函数内值的地方调用函数,前提是函数内计算出的值在最后被return;
+书写的函数不进行封装也会是全局变量,生命周期也就是全局作用域;
+
+____________________________________________________________________________________________________________
+
+显式声明函数:
+
+    var testValue = 123;
+
+    var testFunc = function () { console.log('just test') };
+
+    /**---------全局变量会挂载到 window 对象上------------**/
+
+    console.log(window.testFunc)		// ƒ () { console.log('just test') }
+
+    console.log(window.testValue)		// 123
+
+____________________________________________________________________________________________________
+ 
+for(var i = 0; i < 5; i++) {
+  abc(i);
+};
+
+function abc(i) {
+  setTimeout(function() {
+     console.log(i);			// 0 1 2 3 4 
+  }, 200); 
+}
+
+
+这里相当于创建了5个函数作用域;
+

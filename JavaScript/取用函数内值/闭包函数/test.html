@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function createFunction() {
+            var result = new Array();
+            for (var i = 0; i < 10; i++) {
+                result[i] = function (num) {
+                    return function () {
+                        return num;
+                    };
+                }(i);
+            }
+            return result;
+        }
+
+        var bb = createFunction();
+        alert(aa[0]()); //0
+        alert(aa[1]()); //1
+    </script>
+</body>
+
+</html>

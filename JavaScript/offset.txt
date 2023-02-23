@@ -1,0 +1,14 @@
+offsetWidth:获取当前元素宽度数值;
+offsetHeight:获取当前元素高度数值;
+offsetTop获取当前元素顶部距离其父元素顶部的距离
+offset系列在JS中使用时都不需要在前面加.style.
+
+innerHeight: 为浏览器窗口的视口的高度。
+
+pageY,pageX: 是鼠标在整个页面上的位置,即使不处于HTML可见区域也是会计算的,参考物是整个页面;
+
+clientY,clientX: 鼠标在页面可视区域的位置,坐标系从页面可视区域左上角开始(同页面元素定位的参考系);
+
+使用touch系列事件时不能再使用e.xxx来获取鼠标位置了,而应当为"e.touches[0].clientY";
+
+mouseclick事件会与mousedown事件起冲突导致mousedown事件无法触发.

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piano</title>
+</head>
+
+<body>
+    <ul id="type-list"></ul>
+    <span id="typeNow"></span>
+    <ul id="key-list"></ul>
+    <ul id="block-list"></ul>
+</body>
+
+<script>
+    const audio_data_list = [
+        { id: 0, key: 'a0', hz: 27.500 },
+        { id: 1, key: 'a#0', hz: 29.135 },
+        { id: 2, key: 'b0', hz: 30.868 },
+        { id: 3, key: 'c1', hz: 32.703 },
+        { id: 4, key: 'c#1', hz: 34.648 },
+        { id: 5, key: 'd1', hz: 36.708 },
+        { id: 6, key: 'd#1', hz: 38.891 },
+        { id: 7, key: 'e1', hz: 41.203 },
+        { id: 8, key: 'f1', hz: 43.654 },
+        { id: 9, key: 'f#1', hz: 46.249 },
+        { id: 10, key: 'g1', hz: 48.999 },
+        { id: 11, key: 'g#1', hz: 51.913 },
+        { id: 12, key: 'a1', hz: 55.000 },
+        { id: 13, key: 'a#1', hz: 58.270 },
+        { id: 14, key: 'b1', hz: 61.735 },
+        { id: 15, key: 'c2', hz: 65.406 },
+        { id: 16, key: 'c#2', hz: 69.296 },
+        { id: 17, key: 'd2', hz: 73.416 },
+        { id: 18, key: 'd#2', hz: 77.782 },
+        { id: 19, key: 'e2', hz: 82.407 },
+        { id: 20, key: 'f2', hz: 87.307 },
+        { id: 21, key: 'f#2', hz: 92.499 },
+        { id: 22, key: 'g2', hz: 97.999 },
+        { id: 23, key: 'g#2', hz: 103.826 },
+        { id: 24, key: 'a2', hz: 110.000 },
+        { id: 25, key: 'a#2', hz: 116.541 },
+        { id: 26, key: 'b2', hz: 123.471 },
+        { id: 27, key: 'c3', hz: 130.813 },
+        { id: 28, key: 'c#3', hz: 138.591 },
+        { id: 29, key: 'd3', hz: 146.832 },
+        { id: 30, key: 'd#3', hz: 155.563 },
+        { id: 31, key: 'e3', hz: 164.814 },
+        { id: 32, key: 'f3', hz: 174.614 },
+        { id: 33, key: 'f#3', hz: 184.997 },
+        { id: 34, key: 'g3', hz: 195.998 },
+        { id: 35, key: 'g#3', hz: 207.652 },
+        { id: 36, key: 'a3', hz: 220.000 },
+        { id: 37, key: 'a#3', hz: 233.082 },
+        { id: 38, key: 'b3', hz: 246.942 },
+        { id: 39, key: 'c4', hz: 261.626 },
+        { id: 40, key: 'c#4', hz: 277.183 },
+        { id: 41, key: 'd4', hz: 293.665 },
+        { id: 42, key: 'd#4', hz: 311.127 },
+        { id: 43, key: 'e4', hz: 329.628 },
+        { id: 44, key: 'f4', hz: 349.228 },
+        { id: 45, key: 'f#4', hz: 369.994 },
+        { id: 46, key: 'g4', hz: 391.995 },
+        { id: 47, key: 'g#4', hz: 415.305 },
+        { id: 48, key: 'a4', hz: 440.000 },
+        { id: 49, key: 'a#4', hz: 466.164 },
+        { id: 50, key: 'b4', hz: 493.883 },
+        { id: 51, key: 'c5', hz: 523.251 },
+        { id: 52, key: 'c#5', hz: 554.365 },
+        { id: 53, key: 'd5', hz: 587.330 },
+        { id: 54, key: 'd#5', hz: 622.254 },
+        { id: 55, key: 'e5', hz: 659.255 },
+        { id: 56, key: 'f5', hz: 698.456 },
+        { id: 57, key: 'f#5', hz: 739.989 },
+        { id: 58, key: 'g5', hz: 783.991 },
+        { id: 59, key: 'g#5', hz: 830.609 },
+        { id: 60, key: 'a5', hz: 880.000 },
+        { id: 61, key: 'a#5', hz: 932.328 },
+        { id: 62, key: 'b5', hz: 987.767 },
+        { id: 63, key: 'c6', hz: 1046.502 },
+        { id: 64, key: 'c#6', hz: 1108.731 },
+        { id: 65, key: 'd6', hz: 1174.659 },
+        { id: 66, key: 'd#6', hz: 1244.508 },
+        { id: 67, key: 'e6', hz: 1318.510 },
+        { id: 68, key: 'f6', hz: 1396.913 },
+        { id: 69, key: 'f#6', hz: 1479.978 },
+        { id: 70, key: 'g6', hz: 1567.982 },
+        { id: 71, key: 'g#6', hz: 1661.219 },
+        { id: 72, key: 'a6', hz: 1760.000 },
+        { id: 73, key: 'a#6', hz: 1864.655 },
+        { id: 74, key: 'b6', hz: 1975.533 },
+        { id: 75, key: 'c7', hz: 2093.005 },
+        { id: 76, key: 'c#7', hz: 2217.461 },
+        { id: 77, key: 'd7', hz: 2349.318 },
+        { id: 78, key: 'd#7', hz: 2489.016 },
+        { id: 79, key: 'e7', hz: 2637.020 },
+        { id: 80, key: 'f7', hz: 2793.826 },
+        { id: 81, key: 'f#7', hz: 2959.955 },
+        { id: 82, key: 'g7', hz: 3135.963 },
+        { id: 83, key: 'g#7', hz: 3322.438 },
+        { id: 84, key: 'a7', hz: 3520.000 },
+        { id: 85, key: 'a#7', hz: 3729.310 },
+        { id: 86, key: 'b7', hz: 3951.066 },
+        { id: 87, key: 'c8', hz: 4186.009 },
+    ]
+    const audio_type_list = ['sine', 'square', 'sawtooth', 'triangle']
+    let typeIndex = 0
+
+    function init() {
+        const typeDom = audio_type_list.map((type, index) => {
+            return `<div onclick="setType(${index})" class="type">${type}</div> `;
+        })
+        const keyDom = audio_data_list.map((data) => {
+            return `<li onmousedown="create(${data.id})" class="key ${data.key.length === 3 ? 'bkey' : 'wkey'}"> · </li> `;
+        })
+        const blockDom = audio_data_list.map((data, index) => {
+            if (data.key.length !== 3) return `<li onmousedown="create(${data.id})" class="key block"}"></li>`;
+        })
+        document.getElementById('type-list').innerHTML = `Pitch: ${generateDom(typeDom)}`;
+        document.getElementById('key-list').innerHTML = generateDom(keyDom);
+        document.getElementById('block-list').innerHTML = generateDom(blockDom);
+        document.getElementById('typeNow').innerHTML = `Now: ${audio_type_list[0]}`;
+    }
+
+    function generateDom(arr) {
+        const dom = arr.reduce((prev, curr) => {
+            if (curr !== undefined) {
+                return prev + curr;
+            } else {
+                return prev +'';
+            }
+        }, '');
+        return dom;
+    }
+
+    function setType(index) { // 不能直接传type
+        typeIndex = index.toString()
+        document.getElementById('typeNow').innerHTML = `Now: ${audio_type_list[index]}`;
+    }
+
+    function create(id) {
+        // 创建音频上下文
+        const audioCtx = new AudioContext();
+        // 创建音调控制对象
+        const oscillator = audioCtx.createOscillator();
+        // 创建音量控制对象
+        const gainNode = audioCtx.createGain();
+        // 音调音量关联
+        oscillator.connect(gainNode);
+        // 音量和设备关联
+        gainNode.connect(audioCtx.destination);
+        // 音调类型指定为正弦波
+        oscillator.type = audio_type_list[typeIndex];
+        // 设置音调频率
+        oscillator.frequency.value = audio_data_list[id].hz;
+        // 先把当前音量设为0
+        gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+        // 0.01秒时间内音量从刚刚的0变成1，线性变化
+        gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.01);
+        // 声音走起
+        oscillator.start(audioCtx.currentTime);
+        // 1秒时间内音量从刚刚的1变成0.001，指数变化
+        gainNode.gain.exponentialRampToValueAtTime(0.1, audioCtx.currentTime + 1);
+        // 1秒后停止声音
+        oscillator.stop(audioCtx.currentTime + 1);
+    }
+
+    init();
+</script>
+
+<style>
+    body {
+        background: #000;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    #key-list {
+        margin-top: 10px;
+        display: flex;
+    }
+
+    #block-list {
+        display: flex;
+    }
+
+    #type-list,
+    #typeNow {
+        color: #fff;
+        display: flex;
+    }
+
+    .type {
+        margin-left: 5px;
+    }
+
+    .type:hover {
+        height: 20px;
+        color: #000;
+        transition: 0.3s;
+        border-radius: 2px;
+        background-color: #fff;
+    }
+
+    .key {
+        height: 88px;
+        min-width: 17.4px;
+        flex-wrap: nowrap;
+        text-align: center;
+        list-style-type: none;
+    }
+
+    .bkey {
+        background-color: #000;
+    }
+
+    .wkey {
+        background-color: #fff;
+    }
+
+    .block {
+        height: 17px;
+        min-width: 29.45px;
+        background-color: #fff;
+    }
+</style>
+
+</html>

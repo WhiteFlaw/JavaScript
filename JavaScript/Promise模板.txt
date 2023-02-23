@@ -1,0 +1,5 @@
+var p = new Promise(function (resolve, reject) {
+   // 异步方法
+}).then((data) => {
+    console.log(data);
+})

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PageA</title>
+</head>
+
+<body>
+    <a href="PageB.html">点击跳转页面</a>
+    <script>
+        var link = document.querySelector("a");
+        var value1
+        /* localStorage.setItem(value1, "1");
+        var localS = localStorage.getItem(value1);
+        console.log(localS); */
+        //sessionStorage.setItem(key,value);
+        link.onclick = function () {
+            //session只能在一个对话内存储数据,当前会话一旦关闭数据也会被销毁;
+            localStorage.setItem(value1, "1");
+            var localS = localStorage.getItem(value1);
+        }
+    </script>
+</body>
+
+</html>

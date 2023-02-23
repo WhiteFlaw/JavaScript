@@ -1,0 +1,111 @@
+<!DOCTYPE htaxml>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>CreateElement</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		
+        html, body {
+	        height: 100%;
+	        background-color:lightgrey;
+        }
+		
+		#main {
+			height:500px;
+			width:500px;
+			margin: 10% auto;
+			background-color:skyblue;
+		}
+		
+		.newdiv {
+			background-color:pink;
+			height:20px;
+			width:10px;
+			float:left;
+			margin-left:5px;
+		}
+		
+		.newdiv2 {
+			background-color:pink;
+			height:20px;
+			width:10px;
+			float:left;
+			margin-left:15px;
+		}
+		
+		.newdiv3 {
+			background-color:pink;
+			height:20px;
+			width:10px;
+			float:left;
+			margin-left:20px;
+		}
+		
+		.newdiv4 {
+			background-color:pink;
+			height:20px;
+			width:10px;
+			float:left;
+			margin-left:25px;
+		}
+		
+		.newline {
+			background-color:black;
+			height:20px;
+			width:500px;
+			margin-bottom:2px;
+		}
+	</style>
+</head>
+<body>
+	<div id="main">
+		
+	</div>
+	
+	<script type="text/javascript">
+	let main = document.getElementById("main");
+    var varArr = []; //批量定义
+    var varArr1 = [];
+    for(i=0; i<=10; i++) {   //生成10个line;
+    	var lineName = 'newLine' + i;   //动态生成变量名
+        varArr1[lineName] = document.createElement("div");    //从数组中找到
+        main.appendChild(varArr1[lineName]);
+        varArr1[lineName].classList.add('newline');
+        varArr1[lineName].classList.add('newline' + i);
+        
+    	var maxLength = Math.ceil(Math.random() * 20);
+
+	    for(i=0; i<=maxLength; i++) {
+            var varName = 'newDiv' + i; //动态生成变量名
+            varArr[varName] = document.createElement("div");  //从数组中找到
+            varArr1[lineName].appendChild(varArr[varName]);
+            console.log(maxLength);
+            if(maxLength <= 20 && maxLength >= 15) {
+    		    varArr[varName].classList.add("newdiv2");
+    	    }else if(maxLength <= 15 && maxLength >= 10){
+    	    	varArr[varName].classList.add('newdiv3');
+    	    }else {
+    	    	for(i=0; i<=2; i++) {
+    	    		var varName = 'newDiv' + i; //动态生成变量名
+                    varArr[varName] = document.createElement("div");  //从数组中找到
+                    varArr1[lineName].appendChild(varArr[varName]);
+                    console.log("补加");
+                    varArr[varName].classList.add('newdiv4');
+    	    	}
+    	    }
+        }
+
+    }
+    
+        
+
+
+	</script>
+</body>
+</html>

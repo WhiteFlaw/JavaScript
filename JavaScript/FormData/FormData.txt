@@ -1,0 +1,149 @@
+FormData对象被用来将数据编译成键值对,以便使用XMLHttpRequest来进行发送(实现表单数据序列化,减少表单元素拼接提高效率)
+如果表单的enctype属性设置为multipart/from-data,则会使用表单的submit()方法发送数据
+
+创建FormData对象:
+var formData = new FormData();
+
+
+______________________________________________________________________________
+
+
+HTML表单绑定到FormData对象:
+
+以这种方法构建出的FormData对象内会包含其绑定到的Form表单的数据,
+但在创建时也需要绑定一个<form>,绑定到的form表单没有name属性是可以的,跟加了name的没有什么区别,
+但是get()方法获取某个表单元素的值时需要利用那个表单元素的name属性来获取.
+例:
+//form有name的情况下:
+<body>
+    <form id="formId" name="formName">
+        <input type="text" value="inputValue" name="formText" placeholder="于此输入" id="inputId">
+    </form>
+    <script>
+        //根据ID获得页面当中的<form>;
+        var form = document.querySelector("#formId");
+        //将获得的表单元素作参传入FormData对象进行初始化(绑定);
+        var formdata = new FormData(form);
+        //通过get()获得name值为formText元素的value值;
+        console.log("?" + formdata.get("formText"));//inputValue;
+    </script>
+</body>
+//////////////////////////////////////////////////////////////////////////
+//form没有name的情况下:
+<body>
+    <form id="formId">
+        <input type="text" value="我是输入框value" name="formText" placeholder="于此输入" id="inputId">
+    </form>
+    <script>
+        //根据ID获得页面当中的form表单元素
+        var form = document.querySelector("#formId");
+        //将获得的表单元素作为参数，对formData进行初始化
+        var formdata = new FormData(form);
+        //通过get方法获得name为advName元素的value值
+        console.log("?" + formdata.get("formText"));//xixi
+        //通过get方法获得name为advType元素的value值
+        console.log(formdata.get("advType"));//1 
+    </script>
+</body>
+两者输出结果相同,但是作为表单来说name还是加上的好,提交表单数据没name属性是不好办.
+无论如何,new FormData()里绑定的DOM对象必须是一个<form>标签,FormData()是绑定整个表单,不是绑定单个表单元素
+formdata对象.get()方法里面应当传参的是这个表单里某个表单元素的name值,传入后该方法就可以返回这个表单元素的value;
+
+基本定式:
+    <form name="表单name">
+        <input type="text" value="我是输入框value" name="formText" placeholder="于此输入" id="inputId">
+    </form>
+    <script>
+
+        //将获得的表单元素作为参数，对formData进行初始化
+        var formdata = new FormData(form);
+        //通过get方法获得name为advName元素的value值
+        console.log("?" + formdata.get("formText"));//xixi
+        //通过get方法获得name为advType元素的value值
+        console.log(formdata.get("advType"));//1 
+    </script>
+_____________________________________________________________________________
+
+
+
+formdata()也可以不凭借HTML元素来进行使用;
+
+    //通过FormData构造函数创建一个空对象
+            var formdata = new FormData();
+
+            //可以通过append()方法来追加数据
+            formdata.append("name", "laotie");
+
+            //通过get方法对值进行读取
+            console.log(formdata.get("name"));//laotie
+
+            //通过set方法对值进行设置
+            formdata.set("name", "laoliu");
+            console.log(formdata.get("name"));//laoliu
+
+_____________________________________________________________________________
+
+
+FormData.append()
+
+formData.append(name, value, filename);
+name:value中包含的数据对应的表单名称;
+value:表单的值,可以是USVString或者Blob(包括两者的子类型,比如File);
+filename:可选参数,传给服务器的文件名称,当第二个参数存在的时候,blob对象的默认文件名是"blob",File对象的默认文件名是该文件的名称;
+
+    async afterRead(files) {
+      const fromdata = new FromData();
+      fromdata.append("file", files.file);
+      //FormData对象要跟随数据发送到后端,因此append()的参数不能随便传;
+      const res = await this.$http.post("/upload", fromdata);
+      this.model.user_img = res.data.url;
+      this.UserUpdate();
+    },
+
+FormData对象允许添加的字段类型有Blob,File,或者string,
+如果你传了其它类型的字段,它们会被转换成字符串;
+
+________________________________________________________________
+
+
+Form.set()
+
+FormData.set(key, value)如果指定的key已经存在， FormData.set() 会使用新value覆盖旧value;
+而 FormData.append() 会把新值添加到已有值集合的后面
+
+FormData对象允许添加的字段类型有Blob,File,或者string,
+如果你传了其它类型的字段,它们会被转换成字符串;
+
+_____________________________________________________________________________________________________________
+
+
+在发送请求之前对FormData里的数据进行修改
+
+Form表单数据被收集到FormData对象之后,依然可以在发送请求之前，
+附加额外的数据到FormData对象里：
+(axios拦截器: ?)
+
+var formElement = document.querySelector("form");
+var formData = new FormData(formElement);
+var request = new XMLHttpRequest();
+request.open("POST", "文件名(带后缀名)");
+//open,但是不send();
+formData.append("name", serialNumber++);
+//append()加入额外的数据之后,send()进行发送;
+request.send(formData);
+
+这样你就可以在发送请求之前自由地附加不一定是用户编辑的字段到FormData的数据里一起发送。
+________________________________________________________________________________
+使用FormData对象上传文件
+var btn=document.querySelector("#btn");
+btn.onclick=function(){
+    var formdata=new FormData(document.getElementById("advForm"));
+    var xhr=new XMLHttpRequest();
+    xhr.open("post","http://127.0.0.1/adv");
+    xhr.send(formdata);
+    xhr.onload=function(){
+        if(xhr.status==200){
+            //...
+        }
+    }
+}

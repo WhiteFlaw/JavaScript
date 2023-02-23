@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FormData</title>
+</head>
+
+<body>
+    <div>
+        <form name="form">
+            <input type="text" placeholder="input there" name="inputArea">
+            <button name="btn">我是BUTTON</button>
+            <select name="selector"></select>
+            <input type="file" name="file" required />
+        </form>
+        <script>
+            //通过FormData构造函数创建一个空对象
+            var formdata = new FormData();
+            //可以通过append()方法来追加数据
+            formdata.append("name", "laotie");
+            //通过get方法对值进行读取
+            console.log(formdata.get("name"));//laotie
+            //通过set方法对值进行设置
+            formdata.set("name", "laoliu");
+            console.log(formdata.get("name"));//laoliu
+            /* var form = document.querySelector("form");
+            var formData3 = new FormData(form);
+            function clock3() {
+                formData3.append("CustomField", "This is some extra data");
+                console.log('这是fromData3: ' + formData3.get("form"));
+            }
+
+            setTimeout(clock3, 1000); */
+            /*__________________________________________________________________ */
+            /* var form = document.querySelector("form");
+            var formData1 = new FormData(form);
+            function clock1() {
+                console.log('这是fromData1: ' + formData1.get("form"));
+            }
+
+            setTimeout(clock1, 6000); */
+            //只有from可以
+            /*____________________________________________________________________ */
+            /* var input = document.querySelector("input");
+            var formData2 = new FormData(input);
+            function clock2() {
+                console.log('这是fromData2: ' + formData2.get("inputArea"));
+            }
+
+            setTimeout(clock2, 6000); */
+            //input不行
+            /* ___________________________________________________________________ */
+            /* var button = document.querySelector("button");
+            var formData3 = new FormData(button);
+            function clock3() {
+                console.log('这是fromData3: ' + formData3.get("btn"));
+            }
+
+            setTimeout(clock3, 6000); */
+            //button不行
+            /*___________________________________________________________________ */
+            /* var select = document.querySelector("select");
+            var formData4 = new FormData(select);
+            function clock4() {
+                console.log('这是fromData4: ' + formData4.get("selector"));
+            }
+
+            setTimeout(clock4, 6000); */
+            //select不行
+            /*__________________________________________________________________ */
+
+        </script>
+    </div>
+</body>
+
+</html>
