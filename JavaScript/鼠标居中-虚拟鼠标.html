@@ -1,0 +1,56 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>虚拟鼠标</title>
+</head>
+
+<body>
+    <!-- 为了解决three.js raycaster中鼠标起始位置不在中央导致的偏差问题 -->
+    <!-- raycaster以虚拟鼠标位置为准 -->
+    <div id="vir"></div>
+
+    <script>
+        init();
+        let distance_x, distance_y;
+
+        function init() {
+            // 先做虚拟鼠标, 初始化在中央, 计算其与鼠标位置的差值, 每次需要初始化鼠标到中央的时候都调用这个函数更新差值
+            // 鼠标移动时虚拟鼠标的位置 = 实时鼠标位置 + 差值
+            // 逻辑完成后pointer: none隐藏掉鼠标
+            window.addEventListener('click', function(e) {
+                vir.style.left = `calc(50% - 15px)`;
+                vir.style.top = `calc(50% - 15px)`;
+                distance_x = e.clientX - window.innerWidth / 2;
+                distance_y = e.clientY - window.innerHeight / 2;
+            })
+            const vir = document.querySelector('#vir');
+            window.addEventListener('mousemove', function(e) {
+                vir.style.left = e.clientX - distance_x;
+                vir.style.top = e.clientY - distance_y;
+
+            })
+        }
+    </script>
+</body>
+
+<style>
+    body {
+        position: relative;
+        background-color: #000;
+        cursor: none;
+    }
+
+    #vir {
+        position: absolute;
+        top: calc(50% - 15px);
+        left: calc(50% - 15px);
+        height: 30px;
+        width: 30px;
+        background-color: pink;
+    }
+</style>
+
+</html>
